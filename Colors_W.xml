@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<colors>
+
+	<Series>
+		<One>#FF0000</One>
+		<Two>#FF0000</Two>
+		<Three>#FF0000</Three>
+		<Four>#FF0000</Four>
+		<Five>#FF0000</Five>
+		<Six>#FF0000</Six>
+		<Seven>#FF0000</Seven>
+		<Eight>#FF0000</Eight>
+		<Nine>#FF0000</Nine>
+	</Series>
+	
+	<iMass>		
+		<positiveValue>1000</positiveValue>
+		<positiveColor>#FF0000</positiveColor>
+		<negativeValue>1000</negativeValue>
+		<negativeColor>#0000FF</negativeColor>
+		<nonAvailableColor>#00GG00</nonAvailableColor>
+		
+	</iMass>
+
+	<iMP>
+	
+		<positiveValue>1000</positiveValue>
+		<positiveColor>#FF0000</positiveColor>
+		<negativeValue>1000</negativeValue>
+		<negativeColor>#0000FF</negativeColor>
+		<nonAvailableColor>#00GG00</nonAvailableColor>
+		
+	</iMP>
+	
+	
+	<iBP>
+		<positiveValue>1000</positiveValue>
+		<positiveColor>#FF0000</positiveColor>
+		<negativeValue>1000</negativeValue>
+		<negativeColor>#0000FF</negativeColor>
+		<nonAvailableColor>#00GG00</nonAvailableColor>
+	</iBP>
+
+
+	<iDensity>
+
+		<positiveValue>1000</positiveValue>
+		<positiveColor>#FF0000</positiveColor>
+		<negativeValue>1000</negativeValue>
+		<negativeColor>#0000FF</negativeColor>
+		<nonAvailableColor>#00GG00</nonAvailableColor>
+		
+	</iDensity>
+
+
+	<iEarthCrust>
+	
+		<positiveValue>1000</positiveValue>
+		<positiveColor>#FF0000</positiveColor>
+		<negativeValue>1000</negativeValue>
+		<negativeColor>#0000FF</negativeColor>
+		<nonAvailableColor>#00GG00</nonAvailableColor>
+
+	</iEarthCrust>
+	
+	
+	<iYear>
+
+		<positiveValue>1000</positiveValue>
+		<positiveColor>#FF0000</positiveColor>
+		<negativeValue>1000</negativeValue>
+		<negativeColor>#0000FF</negativeColor>
+		<nonAvailableColor>#00GG00</nonAvailableColor>
+		
+	</iYear>
+	
+	<iGroup>
+	
+		<positiveValue>1000</positiveValue>
+		<positiveColor>#FF0000</positiveColor>
+		<negativeValue>1000</negativeValue>
+		<negativeColor>#0000FF</negativeColor>
+		<nonAvailableColor>#00GG00</nonAvailableColor>
+	
+	</iGroup>
+	
+	
+	<iPeriod>
+	
+		<positiveValue>1000</positiveValue>
+		<positiveColor>#FF0000</positiveColor>
+		<negativeValue>1000</negativeValue>
+		<negativeColor>#0000FF</negativeColor>
+		<nonAvailableColor>#00GG00</nonAvailableColor>
+
+	</iPeriod>
+	
+	<iIE>
+	
+		<positiveValue>1000</positiveValue>
+		<positiveColor>#FF0000</positiveColor>
+		<negativeValue>1000</negativeValue>
+		<negativeColor>#0000FF</negativeColor>
+		<nonAvailableColor>#00GG00</nonAvailableColor>
+	
+	</iIE>
+	
+	<iTC>
+
+		<positiveValue>1000</positiveValue>
+		<positiveColor>#FF0000</positiveColor>
+		<negativeValue>1000</negativeValue>
+		<negativeColor>#0000FF</negativeColor>
+		<nonAvailableColor>#00GG00</nonAvailableColor>
+	
+	</iTC>
+	
+	<iSHC>
+		
+		<positiveValue>1000</positiveValue>
+		<positiveColor>#FF0000</positiveColor>
+		<negativeValue>1000</negativeValue>
+		<negativeColor>#0000FF</negativeColor>
+		<nonAvailableColor>#00GG00</nonAvailableColor>
+		
+	</iSHC>
+	
+	<iHoV>
+
+		<positiveValue>1000</positiveValue>
+		<positiveColor>#FF0000</positiveColor>
+		<negativeValue>1000</negativeValue>
+		<negativeColor>#0000FF</negativeColor>
+		<nonAvailableColor>#00GG00</nonAvailableColor>
+	
+	</iHoV>
+	
+	<iFIP>
+		
+		<positiveValue>1000</positiveValue>
+		<positiveColor>#FF0000</positiveColor>
+		<negativeValue>1000</negativeValue>
+		<negativeColor>#0000FF</negativeColor>
+		<nonAvailableColor>#00GG00</nonAvailableColor>
+	
+	</iFIP>
+
+	<iEN>
+		<positiveValue>1000</positiveValue>
+		<positiveColor>#FF0000</positiveColor>
+		<negativeValue>1000</negativeValue>
+		<negativeColor>#0000FF</negativeColor>
+		<nonAvailableColor>#00GG00</nonAvailableColor>
+	</iEN>
+
+	<iAR>
+		<positiveValue>1000</positiveValue>
+		<positiveColor>#FF0000</positiveColor>
+		<negativeValue>1000</negativeValue>
+		<negativeColor>#0000FF</negativeColor>
+		<nonAvailableColor>#00GG00</nonAvailableColor>
+	
+	</iAR>
+	
+	<iAV>
+		<positiveValue>1000</positiveValue>
+		<positiveColor>#FF0000</positiveColor>
+		<negativeValue>1000</negativeValue>
+		<negativeColor>#0000FF</negativeColor>
+		<nonAvailableColor>#00GG00</nonAvailableColor>
+		
+	</iAV>
+
+	<iCR>
+
+		<positiveValue>1000</positiveValue>
+		<positiveColor>#FF0000</positiveColor>
+		<negativeValue>1000</negativeValue>
+		<negativeColor>#0000FF</negativeColor>
+		<nonAvailableColor>#00GG00</nonAvailableColor>
+
+	</iCR>
+	
+	<iECo>
+		
+		<positiveValue>1000</positiveValue>
+		<positiveColor>#FF0000</positiveColor>
+		<negativeValue>1000</negativeValue>
+		<negativeColor>#0000FF</negativeColor>
+		<nonAvailableColor>#00GG00</nonAvailableColor>
+	
+	</iECo>
+	
+	
+	<iSeries>
+		
+		<positiveValue>1000</positiveValue>
+		<positiveColor>#FF0000</positiveColor>
+		<negativeValue>1000</negativeValue>
+		<negativeColor>#0000FF</negativeColor>
+		<nonAvailableColor>#00GG00</nonAvailableColor>
+		
+	</iSeries>
+
+	<i1s>
+	
+		<positiveValue>1000</positiveValue>
+		<positiveColor>#FF0000</positiveColor>
+		<negativeValue>1000</negativeValue>
+		<negativeColor>#0000FF</negativeColor>
+		<nonAvailableColor>#00GG00</nonAvailableColor>
+
+	</i1s>
+	
+	<i2s>
+		<positiveValue>1000</positiveValue>
+		<positiveColor>#FF0000</positiveColor>
+		<negativeValue>1000</negativeValue>
+		<negativeColor>#0000FF</negativeColor>
+		<nonAvailableColor>#00GG00</nonAvailableColor>
+	</i2s>
+	
+	<i2p>
+		<positiveValue>1000</positiveValue>
+		<positiveColor>#FF0000</positiveColor>
+		<negativeValue>1000</negativeValue>
+		<negativeColor>#0000FF</negativeColor>
+		<nonAvailableColor>#00GG00</nonAvailableColor>
+
+	</i2p>
+	
+	<i3s>
+		<positiveValue>1000</positiveValue>
+		<positiveColor>#FF0000</positiveColor>
+		<negativeValue>1000</negativeValue>
+		<negativeColor>#0000FF</negativeColor>
+		<nonAvailableColor>#00GG00</nonAvailableColor>
+
+	</i3s>
+	
+	<i3p>
+	
+		<positiveValue>1000</positiveValue>
+		<positiveColor>#FF0000</positiveColor>
+		<negativeValue>1000</negativeValue>
+		<negativeColor>#0000FF</negativeColor>
+		<nonAvailableColor>#00GG00</nonAvailableColor>
+	</i3p>
+	
+	<i3d>
+		<positiveValue>1000</positiveValue>
+		<positiveColor>#FF0000</positiveColor>
+		<negativeValue>1000</negativeValue>
+		<negativeColor>#0000FF</negativeColor>
+		<nonAvailableColor>#00GG00</nonAvailableColor>
+
+	</i3d>
+	
+	<i4s>
+		<positiveValue>1000</positiveValue>
+		<positiveColor>#FF0000</positiveColor>
+		<negativeValue>1000</negativeValue>
+		<negativeColor>#0000FF</negativeColor>
+		<nonAvailableColor>#00GG00</nonAvailableColor>		
+	</i4s>
+
+	<i4p>
+		<positiveValue>1000</positiveValue>
+		<positiveColor>#FF0000</positiveColor>
+		<negativeValue>1000</negativeValue>
+		<negativeColor>#0000FF</negativeColor>
+		<nonAvailableColor>#00GG00</nonAvailableColor>
+	</i4p>
+	
+	<i4d>
+		<positiveValue>1000</positiveValue>
+		<positiveColor>#FF0000</positiveColor>
+		<negativeValue>1000</negativeValue>
+		<negativeColor>#0000FF</negativeColor>
+		<nonAvailableColor>#00GG00</nonAvailableColor>
+
+	</i4d>
+	
+	<i4f>
+		<positiveValue>1000</positiveValue>
+		<positiveColor>#FF0000</positiveColor>
+		<negativeValue>1000</negativeValue>
+		<negativeColor>#0000FF</negativeColor>
+		<nonAvailableColor>#00GG00</nonAvailableColor>
+	</i4f>
+	
+	<i5s>
+		<positiveValue>1000</positiveValue>
+		<positiveColor>#FF0000</positiveColor>
+		<negativeValue>1000</negativeValue>
+		<negativeColor>#0000FF</negativeColor>
+		<nonAvailableColor>#00GG00</nonAvailableColor>
+
+	</i5s>
+	
+	<i5p>
+		<positiveValue>1000</positiveValue>
+		<positiveColor>#FF0000</positiveColor>
+		<negativeValue>1000</negativeValue>
+		<negativeColor>#0000FF</negativeColor>
+		<nonAvailableColor>#00GG00</nonAvailableColor>
+	</i5p>
+	
+	<i5d>
+		<positiveValue>1000</positiveValue>
+		<positiveColor>#FF0000</positiveColor>
+		<negativeValue>1000</negativeValue>
+		<negativeColor>#0000FF</negativeColor>
+		<nonAvailableColor>#00GG00</nonAvailableColor>
+
+	</i5d>
+	
+	<i5f>
+		<positiveValue>1000</positiveValue>
+		<positiveColor>#FF0000</positiveColor>
+		<negativeValue>1000</negativeValue>
+		<negativeColor>#0000FF</negativeColor>
+		<nonAvailableColor>#00GG00</nonAvailableColor>
+
+	</i5f>
+	
+	<i6s>
+		<positiveValue>1000</positiveValue>
+		<positiveColor>#FF0000</positiveColor>
+		<negativeValue>1000</negativeValue>
+		<negativeColor>#0000FF</negativeColor>
+		<nonAvailableColor>#00GG00</nonAvailableColor>
+
+	</i6s>
+	
+	<i6p>
+		<positiveValue>1000</positiveValue>
+		<positiveColor>#FF0000</positiveColor>
+		<negativeValue>1000</negativeValue>
+		<negativeColor>#0000FF</negativeColor>
+		<nonAvailableColor>#00GG00</nonAvailableColor>
+
+	</i6p>
+	
+	<i6d>
+		<positiveValue>1000</positiveValue>
+		<positiveColor>#FF0000</positiveColor>
+		<negativeValue>1000</negativeValue>
+		<negativeColor>#0000FF</negativeColor>
+		<nonAvailableColor>#00GG00</nonAvailableColor>
+	</i6d>
+	
+	<i7s>
+		<positiveValue>1000</positiveValue>
+		<positiveColor>#FF0000</positiveColor>
+		<negativeValue>1000</negativeValue>
+		<negativeColor>#0000FF</negativeColor>
+		<nonAvailableColor>#00GG00</nonAvailableColor>
+	</i7s>
+	
+</colors>

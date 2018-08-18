@@ -1,0 +1,117 @@
+<html>
+<head>
+	<title>Test</title>
+
+	<style>
+	ul {
+	  padding: 0;
+	  margin: 0;
+	  list-style: none;
+	  clear: left;
+	  display:none;
+ 	}
+
+ 	li {
+	  float: left;
+	  position: relative;
+	  width: 10em;
+  	}
+
+  	li ul {
+	  display: none;
+	  position: absolute;
+	  top: 1em;
+	  left: 0;
+ 	}
+
+	li > ul {
+	top: auto;
+	left: auto;
+	}
+
+	li:hover ul, li.over ul{ display: block; }
+
+	</style>
+
+	<script>
+
+		function changeSubmenu(el)
+		{
+			var menus = document.getElementsByTagName("ul");
+
+			for (var i=0; i<menus.length; i++)
+			{
+				menus[i].style.display = "none";
+			}
+
+			document.getElementById("nav").style.display="block";
+
+			document.getElementById(el.id + "_submenu").style.display="block";
+
+		}
+
+
+		function hideSubmenu(el)
+		{
+			el.style.display="none";
+		}
+
+		window.onload = function() {
+
+			document.getElementById("a").onmouseover = function() { changeSubmenu(this) };
+			document.getElementById("b").onmouseover = function() { changeSubmenu(this) };
+			document.getElementById("c").onmouseover = function() { changeSubmenu(this) };
+			document.getElementById("d").onmouseover = function() { changeSubmenu(this) };
+
+			document.getElementById("a_submenu").onmouseout = function() { hideSubmenu(this) };
+			document.getElementById("b_submenu").onmouseout = function() { hideSubmenu(this) };
+			document.getElementById("c_submenu").onmouseout = function() { hideSubmenu(this) };
+			document.getElementById("d_submenu").onmouseout = function() { hideSubmenu(this) };
+
+			document.getElementById("nav").style.display="block";
+
+		}
+
+	</script>
+
+</head>
+
+<body>
+
+<ul id="nav">
+  <li><a id="a" href="">Main A</a></li>
+  <li><a id="b" href="">Main B</a></li>
+  <li><a id="c" href="">Main C</a></li>
+  <li><a id="d" href="">Main D</a></li>
+</ul>
+
+<ul id="a_submenu">
+  <li><a href="">Submenu 1a</a></li>
+  <li><a href="">Submenu 1b</a></li>
+  <li><a href="">Submenu 1c</a></li>
+  <li><a href="">Submenu 1d</a></li>
+</ul>
+
+<ul id="b_submenu">
+  <li><a href="">Submenu 2a</a></li>
+  <li><a href="">Submenu 2b</a></li>
+  <li><a href="">Submenu 2c</a></li>
+  <li><a href="">Submenu 2d</a></li>
+</ul>
+
+<ul id="c_submenu">
+  <li><a href="">Submenu 3a</a></li>
+  <li><a href="">Submenu 3b</a></li>
+  <li><a href="">Submenu 3c</a></li>
+  <li><a href="">Submenu 3d</a></li>
+</ul>
+
+<ul id="d_submenu">
+  <li><a href="">Submenu 4a</a></li>
+  <li><a href="">Submenu 4b</a></li>
+  <li><a href="">Submenu 4c</a></li>
+  <li><a href="">Submenu 4d</a></li>
+</ul>
+
+</body>
+</html>

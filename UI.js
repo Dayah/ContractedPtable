@@ -1,0 +1,719 @@
+/*
+	UI.js
+	
+	Purpose: 
+		This file contains all user interface functions for loading, retrieving and displaying data.
+		This is the boundary layer between the content and the functionality.
+*/
+
+window.onload = function() { loadInformation(); }
+
+// Used to keep track of the "fixed" element when hovering
+var activeFixedElement=null
+
+// Used to keep track of the color scheme that is currently loaded
+var activeColorScheme = defaultColorScheme;
+
+// Current element that we are on
+var activeElement = Right(defaultElement,defaultElement.length-2);
+
+// Graph's current height
+// Default to small graph size's
+var graphHeight = graphSmallHeight;
+
+// Previous electron settings
+var currElectronLevel = null;
+var currElectronOrbital = null;
+
+
+/*
+	Name:		loadInformation
+	Purpose: 	Loads all data from external data sources
+	Params: 	None
+	Return: 	None
+*/
+
+function loadInformation()
+{
+	// Intialize graph
+	initGraph();
+	
+	// Loads element information
+	// This method is contained in Elements.js
+	loadElementInformation();
+	
+	// Loads color information
+	// This method is contained in Colors.js
+	loadColorInformation();
+	
+	// Loads behaviours
+	// This method is in Behaviours.js
+	loadBehaviours();
+	
+	// Load defaults
+	loadDefaults();
+	
+	// Initialize menu
+	initMenu();
+	
+	// Initialize the slider
+	initSlider();
+	
+	// Update the states
+	updateStates();
+	
+}
+
+/*
+	Name:		loadColorScheme
+	Purpose:	Loads a color scheme for a specific piece of data
+	Params:		el - element data that we need to load color scheme for
+	Return:		None
+*/
+
+function loadColorScheme(el)
+{	
+	// Show/hide graph
+	if (el==seriesNode)
+	{
+		document.getElementById("graphArea").style.display = "none";
+	}
+	else
+	{
+		document.getElementById("graphArea").style.display = "block";
+	}
+	
+	// Load color scheme for all elements
+	for (var i=1; i<=totalNumElements; i++)
+	{
+	
+		// If a series node then we dont need to go through all the 
+		// color calculation code, can directly update the element
+		// color
+		if (el==seriesNode)
+		{
+			updateElementColor(i, colorSchemeSeries.getArray()[elements[i-1].getArray()[seriesNode]], 100, "Dont show on graph");
+		}
+		// Otherwise color calculations need to be preformed to calculate
+		// opacity
+		else
+		{
+			updateInformationColor(el, i);
+		}
+	
+	}
+		
+	// Set the active color scheme
+	activeColorScheme = el;
+	
+	loadElement(document.getElementById("el" + activeElement));
+	
+}
+
+/*
+	Name:		updateInformationColor
+	Purpose:	Updates an elements color if using a information color scheme
+	Params:		colorScheme - color scheme to use for this element
+			index - element #
+	Return:		None
+*/
+
+function updateInformationColor(colorScheme, index)
+{	
+	var colorSchemeData = colorSchemes[colorScheme];					// Color Scheme
+	var elementData;									// Data of the element were are currently changing
+	var elementColor;									// Color we are changing to
+	var elementOpacity;									// Opacity of that color we are changing to		
+	
+	// Get the elements value
+	var elementData = elements[index-1].getArray();
+	elementData = elementData[colorScheme];
+	
+	// See if this is numeric data or if it is currently unavailable
+	if (isNaN(elementData))
+	{
+		elementColor = colorSchemeData.get("nonAvailableColor");
+		elementOpacity = 100;
+	}
+	// If positive, then work with positive values
+	else if (elementData>=0)
+	{
+		elementColor = colorSchemeData.get("positiveColor");
+		elementOpacity = (elementData/colorSchemeData.get("positiveValue")) * 100;
+	}
+	// If negative, then work with negative values
+	else
+	{
+		elementColor = colorSchemeData.get("negativeColor");
+		elementOpacity = (elementData/colorSchemeData.get("negativeValue")) * 100 * -1;
+	}
+	
+	updateElementColor(index, elementColor, elementOpacity, elementData);
+	
+}
+
+
+
+function updateElementColor(index, elementColor, elementOpacity, elementData)
+{
+	var el = document.getElementById("el" + index)
+	
+	// Make sure the element exists
+	if (!(el)) { return; }
+
+	// Element we are going to update
+	var elementToUpdate = el.getElementsByTagName("span")[0];
+	
+	// Update color of element
+	elementToUpdate.style.backgroundColor = elementColor;
+	
+	// Change opacity of element
+	changeOpacity(elementToUpdate,elementOpacity);
+
+	// Dont show elements with no data to be shown
+	if (isNaN(elementData)) 
+		elementOpacity = 0;
+	
+	// Update bar on graph
+	updateGraphBar(index, elementOpacity, elementColor);
+}
+
+
+/*
+	Name:		updateGraphBar
+	Purpose:	Updates a bar of the graph to reflect the information for the current element
+			we are loading in the color scheme.
+	Params:		elementNumber - element we are currently loading the color scheme for
+			elementOpacity - opacity for the bar as well as its height, same calculation
+			elementColor - color for the bar on the graph for this element
+	Return:		None
+*/
+
+function updateGraphBar(elementNumber, elementOpacity, elementColor)
+{			
+	updateGraphBarColor(elementNumber, elementOpacity, elementColor);
+	
+	updateGraphBarHeight(elementNumber, elementOpacity);
+}
+
+
+/*
+	Name:		updateGraphBarColor
+	Purpose:	Updates a specified graph's bar's color
+	Params:		elementNumber - element on graph we are updating
+			elementOpacity - opacity of bar
+			elementColor - color of bar
+	Return:		None
+*/
+
+function updateGraphBarColor(elementNumber, elementOpacity, elementColor)
+{
+	var graphBar = document.getElementById("gb" + (elementNumber));
+	
+	// Make sure that the opacity is not greater than 100%
+	if (elementOpacity>99)
+		elementOpacity = 99; 
+	
+	// Update graph bar's color
+	graphBar.style.backgroundColor = elementColor;
+	changeOpacity(graphBar, elementOpacity);
+}
+
+
+/*
+	Name:		updateGraphBarHeight
+	Purpose:	Updates a specified graph's bar's height
+	Params:		elementNumber - element on graph we are updating
+			percentageHeight - height/opacity of bar
+	Return:		None
+*/
+
+function updateGraphBarHeight(elementNumber, percentageHeight)
+{
+	var graphBar = document.getElementById("gb" + (elementNumber));
+	
+	// Get height
+	//var graphHeight = document.getElementById("graph").offsetHeight;
+		
+	var barHeight = 0;
+	var multiplier;
+		
+	// Make sure that the opacity is not greater than 100%
+	if (percentageHeight>99)
+		percentageHeight = 99; 
+	
+	// Make into a decimal percentage
+	multiplier = percentageHeight / 100;
+
+	// Figure out height of the bar
+	barHeight = graphHeight * multiplier;
+
+	// Set bar height
+	graphBar.style.height = barHeight + "px";
+	graphBar.style.marginTop = (graphHeight-barHeight) + "px";	
+}
+
+
+/*
+	Name:		loadElement
+	Purpose:	Loads the information for the element
+	Params:		el - element that we are loading
+	Return:		None
+*/
+
+function loadElement(el)
+{
+	var index = parseInt(Right(el.id,el.id.length-2));
+	
+	// See if we have "clicked" an element
+	if (doOnHover && activeFixedElement!=null) { return; }
+	
+	// Load element information
+	var elementData = elements[index-1].getArray();
+
+	// Update the fields based on our associative array of node items
+	// This assumes that on the page their is a properly named id corresponding
+	// to the data node's name
+	for (var dataID in elementData)
+	{
+		if (document.getElementById(dataID))
+			document.getElementById(dataID).innerHTML = elementData[dataID];
+	}
+	
+	// Update the left side of data elements and on the graph
+	document.getElementById("elementNumber").innerHTML = Right(el.id,el.id.length-2);
+	document.getElementById("elementSymbol").innerHTML = elementData[elementSymbol];
+	document.getElementById("elementWeight").innerHTML = elementData[elementWeight];
+	document.getElementById("graphElement").innerHTML = elementData[elementSymbol];
+	document.getElementById("graphValue").innerHTML = elementData[activeColorScheme];
+	document.getElementById("State").innerHTML = determineState(elementData[meltingPointNode], elementData[boilingPointNode], document.getElementById("slider-input-1").value);
+	
+	// Update electron information
+	updateElectronInfo(elementData[electronConfigNode], Right(el.id,el.id.length-2));
+	
+	// Highlight the current element in the table and in the graph
+	highlightactiveFixedElement(index);
+}
+
+
+/*
+	Name:		updateElectronInfo
+	Purpose:	Loads the information about the electron configuration for the current element
+	Params:		electronConfig - electron config information passed in from element data
+			elementNumber - number of element we are displaying information for
+	Return:		None
+*/
+
+function updateElectronInfo(electronConfig, elementNumber)
+{
+	// Variables to store information and compare with
+	var number = 0;
+	var letter = "s";
+
+	// Character we are currently reading in
+	var currentChar;
+	
+	// Next character after 
+	var nextChar;
+
+	// s indicator
+	var sValue;
+	
+	// Electron levels and associated elements on the interface
+	var electronLevels = {  "1": "nOne", "2": "nTwo", "3": "nThree", "4": "nFour", "5": "nFive", "6": "nSix",
+				"7": "nSeven", "8": "nEight" };
+	
+	// Orbital levels and associated elements on the interface
+	var orbitals = { "s": "lS", "p": "lP", "d": "lD", "f": "lF" };
+
+	// An associative array holding all levels and their rank
+	var levels =  { "s":1, "p":2, "d":3, "f": 4 };
+
+	// Hide border on old elements
+	if (currElectronLevel && currElectronOrbital)
+	{
+		document.getElementById(electronLevels[currElectronLevel]).style.border="none";
+		document.getElementById(orbitals[currElectronOrbital]).style.border="none";
+	}
+	
+	// Loop through string to find electron level and orbital level
+	for (i=0; i<electronConfig.length; i++)
+	{
+		currentChar = electronConfig.charAt(i);
+		nextChar = electronConfig.charAt(i+1);
+
+		if (levels[currentChar])
+		{
+			if (levels[currentChar] > levels[letter])
+				letter = currentChar;
+		}
+		else if (!isNaN(currentChar))
+		{
+			//number
+			if (levels[nextChar] && currentChar > number)
+				number = currentChar;
+		}
+
+	}
+	
+	// Determine s arrow indicator
+	if (elementNumber % 2)
+	{
+		sValue = "&darr\;";
+	}
+	else
+	{
+		sValue = "&uarr\;";
+	}
+	
+	// Set new levels
+	currElectronLevel = number;
+	currElectronOrbital = letter;
+		
+	// Update interface
+	if (electronLevels[number] && orbitals[letter])
+	{
+		document.getElementById(electronLevels[number]).style.border="1px solid #000";
+		document.getElementById(orbitals[letter]).style.border="1px solid #000";
+	}
+	// Error on parsing
+	else
+	{
+		currElectronLevel = null;
+		currElectronOrbital = null;
+		
+	}
+	
+	// Update s portion
+	document.getElementById("sValue").innerHTML = sValue;
+}
+
+
+/*
+	Name:		fixElementHover
+	Purpose:	This will fix the element that was clicked during hovering
+	Params:		el - element to fix or defix
+	Return:		None
+*/
+
+function fixElementHover(el)
+{	
+	var index = Right(el.id,el.id.length - 2);
+
+	// See if we wish to "defix" this element
+	// We defixate when the same element is reclicked
+	if (activeFixedElement==index)
+	{
+		activeFixedElement = null;
+		return;
+	}
+	
+	// Set the active element to null so that when we go to load the element
+	// it doesnt think we are loading it based on us hovering over another element
+	activeFixedElement = null;
+	
+	// Load the element we clicked on
+	loadElement(document.getElementById("el" + index));
+	
+	// Reset the active element indicator to the new element so that it will not
+	// continue to load elements as we hover over them
+	activeFixedElement = index;
+}
+
+
+/*
+	Name:		changeOpactity
+	Purpose:	Is used to change the opacity of an objects background color
+	Params:		imageobject - element that we are altering
+				opacity - new opacity percentage we wish to use
+	Return:		None
+*/
+
+function changeOpacity(imageobject, opacity)
+{	
+	// This changes all the different opacity settings for various browsers
+	imageobject.style.opacity = (opacity / 100);
+	imageobject.style.MozOpacity = imageobject.style.opacity;
+	imageobject.style.KhtmlOpacity = imageobject.style.opacity;
+	imageobject.style.filter = 'alpha(opacity='+opacity+')';
+}
+
+
+/*
+	Name:		loadDefaults
+	Purpose:	This will load the default element into the boxes and also will load the default
+				color scheme.
+	Params:		None
+	Return:		None
+*/
+
+function loadDefaults()
+{	
+	
+	loadColorScheme(defaultColorScheme);
+		
+	loadElement(document.getElementById(defaultElement));
+}
+
+/*
+	Name:		resizeGraph
+	Purpose:	Resizes the graph appropriately by changing classes on the graph element.
+	Params:		None
+	Return:		None
+*/
+
+function resizeGraph()
+{
+	var graph = document.getElementById("graph");
+	var graphClass = graph.className;
+	var resizeElement = document.getElementById("resizeGraph");
+	var previousGraphHeight = graphHeight;
+
+	if (graphHeight == graphLargeHeight)
+	{
+		graphHeight = graphSmallHeight;
+		graph.style.width = graphSmallWidth + "px";
+		resizeElement.innerHTML = "Enlarge";
+	}
+	else
+	{
+		graphHeight = graphLargeHeight;
+		graph.style.width = graphLargeWidth + "px"
+		resizeElement.innerHTML = "Reduce"
+	}
+
+	loadColorScheme(activeColorScheme);
+	
+}
+
+
+
+/*
+	Name:		highlightactiveFixedElement
+	Purpose:	This will fix the element that was clicked during hovering
+	Params:		el - element to fix or defix
+	Return:		None
+*/
+
+function highlightactiveFixedElement(index)
+{
+
+	if (activeColorScheme!=seriesNode)
+	{
+		// Restore old active elements colors
+		updateInformationColor(activeColorScheme, activeElement);
+	}
+	else
+	{
+		// Update the color to the appropriate state color	
+		document.getElementById("el" + activeElement).getElementsByTagName("span")[0].style.backgroundColor = colorSchemeSeries.getArray()[elements[activeElement-1].getArray()[seriesNode]];
+	}
+
+	// Change to active color
+	document.getElementById("el" + index).getElementsByTagName("span")[0].style.backgroundColor = activeElementColor;
+	document.getElementById("gb" + index).style.backgroundColor = activeElementColor;	
+	
+	// Set a new active element
+	activeElement = index;
+}
+
+
+/*
+	Name:		initSlider
+	Purpose:	Initliazes slider control on the page.
+	Params:		None
+	Return:		None
+*/
+
+function initSlider()
+{
+	var s = new Slider(document.getElementById("slider-1"), document.getElementById("slider-input-1"));
+	
+	s.setMinimum(-273);
+	s.setMaximum(5660);
+	s.setValue(0);	
+	
+	s.onchange = function() { updateStates() };
+	
+	
+	var s2 = new Slider(document.getElementById("slider-2"), document.getElementById("slider-input-2"));
+	var theDate = new Date();		// create Date object with the current date;
+	var currYear = theDate.getYear();	// current year
+	
+	if (currYear < 2000) 
+		currYear = 1900 + currYear;
+	
+	s2.setMinimum(0);
+	s2.setMaximum(currYear);
+	s2.setValue(currYear);
+	
+	s2.onchange = function() { updateYears() };
+	
+	updateYears();
+}
+
+
+/*
+	Name:		updateStates
+	Purpose:	Updates the state of all the elements as well as our current element.
+	Params:		None
+	Return:		None
+*/
+
+function updateStates()
+{
+	var state;
+	var elementData;
+	var sliderVal = document.getElementById("slider-input-1").value;
+	var updateElementColor;
+
+	// Update temperature indicators
+	document.getElementById("tempGauge1").innerHTML =  sliderVal;	
+	document.getElementById("tempGauge2").innerHTML = "Temp: " + sliderVal;
+	
+	// Update state of all the elements
+	for (var i=0; i<totalNumElements;i++)
+	{
+		// Get the data for current element
+		elementData = elements[i].getArray();
+	
+		// Determine the state of the current element based of current slider value
+		state = determineState(elementData[meltingPointNode], elementData[boilingPointNode], sliderVal);
+		
+		// Determine what color to update the foreground color to based off the state we calculated above
+		switch (state)
+		{
+			case "Gas":
+				updateElementColor = gasColor;
+				break;
+			case "Liquid":
+				updateElementColor = liquidColor;
+				break;
+			case "Solid":
+				updateElementColor = solidColor;
+				break;
+		}
+		
+		// Update the color to the appropriate state color
+		document.getElementById("el" + (i+1)).style.color = updateElementColor;
+		
+	}
+	
+	// Determine active elements state and revise it
+	elementData = elements[activeElement-1].getArray();
+	document.getElementById("State").innerHTML = determineState(elementData[meltingPointNode], elementData[boilingPointNode], sliderVal);;	
+	
+}
+
+
+/*
+	Name:		updateStates
+	Purpose:	Updates the visibility of all the elements as well as our current element.
+	Params:		None
+	Return:		None
+*/
+
+function updateYears()
+{
+	var sliderVal = document.getElementById("slider-input-2").value;
+	
+	document.getElementById("yearGauge").innerHTML = "Year: " + sliderVal;
+	
+	var elYear;		// elements year
+	
+	var baseElement;
+	
+	// Update state of all the elementss
+	for (var i=0; i<totalNumElements;i++)
+	{
+		
+		baseElement = document.getElementById("el" + (i+1)).getElementsByTagName("div")[0];
+		
+		// Get the data for current element
+		elementData = elements[i].getArray();
+
+		// Determine the state of the current element based of current slider value
+		elYear = elementData[yearNode];
+		
+		if (Right(elYear,2).toUpperCase()=="BC")
+		{
+			elYear = Left(elYear,elYear.length - 2) * -1;
+		}
+
+		// If discovered by year in slider, show
+		// Also show if not numeric
+
+		if (isNaN(elYear) || (elYear <= sliderVal))
+		{
+			baseElement.style.display = "block";
+		}
+		else
+		{
+			baseElement.style.display = "none";
+		}
+	
+	}		
+}
+
+
+
+/*
+	Name:		determineState
+	Purpose:	Determines the state of the element based on the melting and boiling points and the current value
+				of the slider.
+	Params:		mp - melting point for the element
+				bp - boiling point for the element
+				sliderVal - current value of the slider
+	Return:		None
+*/
+
+function determineState(mp, bp, sliderVal)
+{
+	if (parseInt(sliderVal) > parseInt(bp))
+		return "Gas";
+	else if (parseInt(sliderVal) > parseInt(mp))
+		return "Liquid";
+	else
+		return "Solid";
+	
+}
+
+/*
+	Name:		initMenu
+	Purpose:	Initialize the menu.
+	Params:		None
+	Return:		None
+*/
+
+function initMenu()
+{
+	if (document.all&&document.getElementById) {
+		navRoot = document.getElementById("nav");
+		for (i=0; i<navRoot.childNodes.length; i++) {
+			node = navRoot.childNodes[i];
+			if (node.nodeName=="LI") {
+				node.onmouseover=function() {
+					this.className+=" over";
+				}
+				node.onmouseout=function() {
+					this.className=this.className.replace(" over", "");
+				}
+			}
+		}
+	}
+}
+
+
+/*
+	Name:		initGraph
+	Purpose:	Initialize the graph. Sets the default width/height
+	Params:		None
+	Return:		None
+*/
+
+function initGraph()
+{
+	document.getElementById("graph").style.width = graphSmallWidth + "px";
+	document.getElementById("graph").style.height = graphSmallHeight + "px";
+}
+

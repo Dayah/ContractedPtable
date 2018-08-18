@@ -1,0 +1,1239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+
+    <title>Periodic Table of the Elements</title>
+	<script language="javascript" type="text/javascript" src="Constants.js"></script>
+	<script language="javascript" type="text/javascript" src="Common.js"></script>
+	<script language="javascript" type="text/javascript" src="UI.js"></script>
+	<script language="javascript" type="text/javascript" src="Elements.js"></script>
+	<script language="javascript" type="text/javascript" src="Behaviour.js"></script>
+	<script language="javascript" type="text/javascript" src="Behaviours.js"></script>
+	<script language="javascript" type="text/javascript" src="CommonXML.js"></script>
+	<script language="javascript" type="text/javascript" src="Colors.js"></script>
+
+	<!-- SLIDER -->
+	<link type="text/css" rel="StyleSheet" href="slider/css/winclassic.css" />
+	<script type="text/javascript" src="slider/js/range.js"></script>
+	<script type="text/javascript" src="slider/js/timer.js"></script>
+	<script type="text/javascript" src="slider/js/slider.js"></script>
+
+	<style type="text/css">
+
+		* { margin:0; padding:0; }
+		body { margin: 10px; }
+		h1 { margin-bottom:15px; }
+		td.space { border: none; }
+		td { cursor: pointer; border: 1px solid black; }
+		div.elementInfo { margin-left: 10px; width: 31%; float: left; }
+		div.elementInfo span { margin-right: 5px; }
+		#period { width: 106em; clear: both; z-index:0; }		/* 18 * td.element's width */
+		#dataArea { width: 60em; height: 18em }	    			/* 10 * td.element's width */
+		td.element { height: 6em; width: 6em; }
+		td.element div .content{ position:absolute; z-index:1; width: 100%; height: 100%;  }
+		td.element span { position:absolute; top:0; left:0; z-index:0; width:100%; height:100%; }
+		td.element .insideElement { position: relative; height:100%; width:100%; }
+		span { font-size: 1em; }
+		#leftSideDataFields { float: left; width: 12em; margin-left: 1em; text-align: left;}
+		#leftSideDataFields span { display:block; }
+		#rightSideDataFields { float:left; width: 46em; }
+		#rightSideDataFields elementData { cursor: pointer; }
+		#elementSymbol { font-size:4em; }
+		.graph { display: table; }
+		#graphBars { height: 100%; display: table-cell; }
+		#graphBars div { width: .8%; text-indent: -999em; float: left; height:0%; }
+		#graphElement { font-size: 1em; font-weight: bold; margin-right: 10px; }
+		#graphValue { font-size: 1em; font-weight: bold; }
+		#graphArea { margin-top:10px; }
+
+		ul { /* all lists */
+			list-style: none;
+		}
+
+		li { /* all list items */
+			float: left;
+			position: relative;
+			width: 10em;
+			background-color:#CC6666;
+			border: 1px solid black;
+			color: white;
+			z-index:1;
+		}
+
+		li ul { /* second-level lists */
+			display: none;
+			position: absolute;
+			top: 1em;
+			left: 0;
+		}
+
+		li>ul { /* to override top and left in browsers other than IE, which will position to the top right of the containing li, rather than bottom left */
+			top: auto;
+			left: auto;
+		}
+
+		li:hover ul, li.over ul { /* lists nested under hovered list items */
+			display: block;
+		}
+
+		#content {
+			clear: left;
+		}
+
+	</style>
+
+</head>
+
+<body>
+
+<h1>Periodic Table of the Elements</h1>
+
+<div id="menu">
+	<ul id="nav">
+
+		<li>Atomic Structure
+			<ul>
+				<li id="menu_iMass">Mass</li>
+				<li id="menu_iDensity">Density</li>
+				<li id="menu_iAR">Atomic Radius</li>
+				<li id="menu_iAV">Atomic Volume</li>
+				<li id="menu_iCR">Covalent Radius</li>
+			</ul>
+		</li>
+
+		<li>Temperature
+			<ul>
+				<li id="menu_iMP">Melting Point</li>
+				<li id="menu_iBP">Boiling Point</li>
+				<li id="menu_iSHC">Specific Heat Capacity</li>
+				<li id="menu_iHoV">Heat of Vaporization</li>
+			</ul>
+		</li>
+
+		<li>Ionization
+			<ul>
+				<li id="menu_iEN">Electronegativity</li>
+				<li id="menu_iFIP">First Ionization Potential</li>
+				<li id="menu_iIE">Ionization Energy</li>
+			</ul>
+		</li>
+
+		<li>Conductivity
+			<ul>
+				<li id="menu_iEC">Electrical</li>
+				<li id="menu_iTC">Thermal</li>
+			</ul>
+		</li>
+
+		<li>Electron Orbitals
+			<ul>
+				<li id="menu_i1s">1s</li>
+				<li id="menu_i2s">2s</li>
+				<li id="menu_i2p">2p</li>
+				<li id="menu_i3s">3s</li>
+				<li id="menu_i3p">3p</li>
+				<li id="menu_i3d">3d</li>
+				<li id="menu_i4s">4s</li>
+				<li id="menu_i4p">3p</li>
+				<li id="menu_i4d">3d</li>
+				<li id="menu_i4f">4f</li>
+				<li id="menu_i5s">5s</li>
+				<li id="menu_i5p">5p</li>
+				<li id="menu_i5d">5d</li>
+				<li id="menu_i5f">5f</li>
+				<li id="menu_i6s">6s</li>
+				<li id="menu_i6p">6p</li>
+				<li id="menu_i6d">6d</li>
+				<li id="menu_i7s">7s</li>
+
+			</ul>
+		</li>
+
+	</ul>
+</div>
+
+<table id="period" cellpadding="0" cellspacing="2">
+
+    <tr>
+
+        <td id="el1" class="element">
+			<div class="insideElement"><span></span><div class="content">
+				1
+				H
+
+				Hydrogen
+				1.0079
+			</div></div></td>
+
+        <td class="space"></td>
+
+        <td colspan="10" rowspan="3" class="space" id="dataArea">
+
+			 <div id="leftSideDataFields">
+
+				<span id="elementNumber"></span>
+				<span id="elementSymbol"></span>
+				<span id="elementWeight"></span>
+			 </div>
+
+			 <div id="rightSideDataFields">
+				 <div class="elementInfo"><span class="dataLabel">Mass:</span><span id="iMass" class="elementData"></span></div>
+				 <div class="elementInfo"><span>Name:</span><span id="iName"></span></div>
+				 <div class="elementInfo"><span>Symbol:</span><span id="iSymbol"></span></div>
+				 <div class="elementInfo"><span class="dataLabel">Melting Point:</span><span id="iMP" class="elementData"></span></div>
+				 <div class="elementInfo"><span class="dataLabel">Boiling Point:</span><span id="iBP" class="elementData"></span></div>
+				 <div class="elementInfo"><span>State at</span><span id="tempGauge1">20</span><span>:</span><span id="State" class="elementData"></span></div>
+				 <div class="elementInfo"><span class="dataLabel">Density:</span><span id="iDensity" class="elementData"></span></div>
+				 <div class="elementInfo"><span class="dataLabel">Earth Crust:</span><span id="iEarthCrust" class="elementData"></span></div>
+				 <div class="elementInfo"><span class="dataLabel">Year:</span><span id="iYear" class="elementData"></span></div>
+				 <div class="elementInfo"><span class="dataLabel">Group:</span><span id="iGroup" class="elementData"></span></div>
+				 <div class="elementInfo"><span class="dataLabel">Period:</span><span id="iPeriod" class="elementData"></span></div>
+				 <div class="elementInfo"><span class="dataLabel">Electron Config:</span><span id="iEC"></span></div>
+				 <div class="elementInfo"><span class="dataLabel">Ionization Energy:</span><span id="iIE" class="elementData"></span></div>
+				 <div class="elementInfo"><span class="dataLabel">Thermal Conductivity:</span><span id="iTC" class="elementData"></span></div>
+				 <div class="elementInfo"><span class="dataLabel">Specifc Heat Capacity:</span><span id="iSHC" class="elementData"></span></div>
+				 <div class="elementInfo"><span class="dataLabel">Heat of Vaporization:</span><span id="iHoV" class="elementData"></span></div>
+				 <div class="elementInfo"><span class="dataLabel">First Ionization Potential:</span><span id="iFIP" class="elementData"></span></div>
+
+				 <div class="elementInfo"><span class="dataLabel">Electronegativity:</span><span id="iEN" class="elementData"></span></div>
+				 <div class="elementInfo"><span class="dataLabel">Atomic Radius:</span><span id="iAR" class="elementData"></span></div>
+				 <div class="elementInfo"><span class="dataLabel">Atomic Volume:</span><span id="iAV" class="elementData"></span></div>
+				 <div class="elementInfo"><span class="dataLabel">Covalent Radius:</span><span id="iCR" class="elementData"></span></div>
+				 <div class="elementInfo"><span class="dataLabel">Electroconductivity</span><span id="iECo" class="elementData"></span></div>
+				 <div class="elementInfo"><span class="dataLabel">Series:</span><span id="iSeries" class="elementData"></span></div>
+			</div></div></td>
+        <td colspan="4" class="space">
+
+			<div class="slider" id="slider-1" tabIndex="1">
+				<input class="slider-input" id="slider-input-1"/>
+			</div>
+			<label for="slider-input-1" id="tempGauge2">Temp: 20</label>
+
+			<div class="slider" id="slider-2" tabIndex="2">
+				<input class="slider-input" id="slider-input-2"/>
+			</div>
+			<label for="slider-input-2" id="yearGauge">Year: </label>
+
+		</td>
+        <td class="space"></td>
+        <td id="el2" class="element"><div class="insideElement"><span></span><div class="content">
+            2
+            He
+
+            Helium
+            4.00260        </div></div></td>
+    </tr>
+
+    <tr>
+
+        <td id="el3" class="element"><div class="insideElement"><span></span><div class="content">
+            3
+            Li
+
+            Lithium
+            6.941        </div></div></td>
+
+        <td id="el4" class="element"><div class="insideElement"><span></span><div class="content">
+            4
+            Be
+
+            Beryllium
+            9.0238        </div></div></td>
+
+        <td id="el5" class="element"><div class="insideElement"><span></span><div class="content">
+            5
+            B
+
+            Boron
+            10.81        </div></div></td>
+
+        <td id="el6" class="element"><div class="insideElement"><span></span><div class="content">
+            6
+            C
+
+            Carbon
+            12.011        </div></div></td>
+
+        <td id="el7" class="element"><div class="insideElement"><span></span><div class="content">
+            7
+            N
+
+            Nitrogen
+            14.0067        </div></div></td>
+
+        <td id="el8" class="element"><div class="insideElement"><span></span><div class="content">
+            8
+            O
+
+            Oxygen
+            15.9994        </div></div></td>
+
+        <td id="el9" class="element"><div class="insideElement"><span></span><div class="content">
+            9
+            F
+
+            Fluorine
+            18.9984        </div></div></td>
+
+        <td id="el10" class="element"><div class="insideElement"><span></span><div class="content">
+            10
+            Ne
+
+            20.179
+            Neon        </div></div></td>
+    </tr>
+
+    <tr>
+
+        <td id="el11" class="element"><div class="insideElement"><span></span><div class="content">
+            11
+            Na
+
+            Sodium
+            22.9898        </div></div></td>
+
+        <td id="el12" class="element"><div class="insideElement"><span></span><div class="content">
+            12
+            Mg
+
+            Magnesium
+            24.305        </div></div></td>
+
+        <td id="el13" class="element"><div class="insideElement"><span></span><div class="content">
+            13
+            Al
+
+            Aluminum
+            26.9815        </div></div></td>
+
+        <td id="el14" class="element"><div class="insideElement"><span></span><div class="content">
+            14
+            Si
+            Silicon
+            28.0855        </div></div></td>
+
+        <td id="el15" class="element"><div class="insideElement"><span></span><div class="content">
+            15
+            P
+
+            Phosphorus
+            30.9738        </div></div></td>
+
+        <td id="el16" class="element"><div class="insideElement"><span></span><div class="content">
+            16
+            S
+
+            Sulfur
+            32.06        </div></div></td>
+
+        <td id="el17" class="element"><div class="insideElement"><span></span><div class="content">
+            17
+            Cl
+
+            Chlorine
+            35.453        </div></div></td>
+
+        <td id="el18" class="element"><div class="insideElement"><span></span><div class="content">
+            18
+            Ar
+
+            Argon
+            39.948        </div></div></td>
+    </tr>
+
+    <tr>
+
+        <td id="el19" class="element"><div class="insideElement"><span></span><div class="content">
+            19
+            K
+
+            Potassium
+            39.0983        </div></div></td>
+
+        <td id="el20" class="element"><div class="insideElement"><span></span><div class="content">
+            20
+            Ca
+
+            Calcium
+            40.08        </div></div></td>
+
+        <td id="el21" class="element"><div class="insideElement"><span></span><div class="content">
+            21
+            Sc
+
+            Scandium
+            44.9559        </div></div></td>
+
+        <td id="el22" class="element"><div class="insideElement"><span></span><div class="content">
+            22
+            Ti
+            Titanium
+            47.66        </div></div></td>
+
+        <td id="el23" class="element"><div class="insideElement"><span></span><div class="content">
+            23
+            V
+
+            Vanadium
+            50.9415        </div></div></td>
+
+        <td id="el24" class="element"><div class="insideElement"><span></span><div class="content">
+            24
+            Cr
+
+            Chromium
+            51.996        </div></div></td>
+
+        <td id="el25" class="element"><div class="insideElement"><span></span><div class="content">
+            25
+            Mn
+
+            Manganese
+            54.9380        </div></div></td>
+
+        <td id="el26" class="element"><div class="insideElement"><span></span><div class="content">
+            26
+            Fe
+
+            Iron
+            55.847        </div></div></td>
+
+        <td id="el27" class="element"><div class="insideElement"><span></span><div class="content">
+            27
+            Co
+
+            Cobalt
+            58.9332        </div></div></td>
+
+        <td id="el28" class="element"><div class="insideElement"><span></span><div class="content">
+            28
+            Ni
+
+            Nickel
+            58.69        </div></div></td>
+
+        <td id="el29" class="element"><div class="insideElement"><span></span><div class="content">
+            29
+            Cu
+
+            Copper
+            63.546        </div></div></td>
+
+        <td id="el30" class="element"><div class="insideElement"><span></span><div class="content">
+            30
+            Zn
+
+            Zinc
+            65.39        </div></div></td>
+
+        <td id="el31" class="element"><div class="insideElement"><span></span><div class="content">
+            31
+            Ga
+
+            Gallium
+            69.72        </div></div></td>
+
+        <td id="el32" class="element"><div class="insideElement"><span></span><div class="content">
+            32
+            Ge
+
+            Germanium
+            72.59        </div></div></td>
+
+        <td id="el33" class="element"><div class="insideElement"><span></span><div class="content">
+            33
+            As
+
+            Arsenic
+            74.9216        </div></div></td>
+
+        <td id="el34" class="element"><div class="insideElement"><span></span><div class="content">
+            34
+            Se
+
+            Selenium
+            78.96        </div></div></td>
+
+        <td id="el35" class="element"><div class="insideElement"><span></span><div class="content">
+            35
+            Br
+
+            Bromine
+            79.904        </div></div></td>
+
+        <td id="el36" class="element"><div class="insideElement"><span></span><div class="content">
+            36
+            Kr
+
+            Krypton
+            83.80        </div></div></td>
+    </tr>
+
+    <tr>
+
+        <td id="el37" class="element"><div class="insideElement"><span></span><div class="content">
+            37
+            Rb
+
+            Rubidium
+            85.4678        </div></div></td>
+
+        <td id="el38" class="element"><div class="insideElement"><span></span><div class="content">
+            38
+            Sr
+
+            Strontium
+            87.62        </div></div></td>
+
+        <td id="el39" class="element"><div class="insideElement"><span></span><div class="content">
+            39
+            Y
+
+            Yttrium
+            88.9059        </div></div></td>
+
+        <td id="el40" class="element"><div class="insideElement"><span></span><div class="content">
+            40
+            Zr
+
+            Zirconium
+            91.224        </div></div></td>
+
+        <td id="el41" class="element"><div class="insideElement"><span></span><div class="content">
+            41
+            Nb
+
+            Niobium
+            92.9064        </div></div></td>
+
+        <td id="el42" class="element"><div class="insideElement"><span></span><div class="content">
+            42
+            Mo
+
+            Molybdenum
+            95.94        </div></div></td>
+
+        <td id="el43" class="element"><div class="insideElement"><span></span><div class="content">
+            43
+            Tc
+
+            Technetium
+            98.9062        </div></div></td>
+
+        <td id="el44" class="element"><div class="insideElement"><span></span><div class="content">
+            44
+            Ru
+
+            Ruthenium
+            101.07        </div></div></td>
+
+        <td id="el45" class="element"><div class="insideElement"><span></span><div class="content">
+            45
+            Rh
+
+            Rhodium
+            102.906        </div></div></td>
+
+        <td id="el46" class="element"><div class="insideElement"><span></span><div class="content">
+            46
+            Pd
+
+            Palladium
+            106.42        </div></div></td>
+
+        <td id="el47" class="element"><div class="insideElement"><span></span><div class="content">
+            47
+            Ag
+
+            Silver
+            107.868        </div></div></td>
+
+
+        <td id="el48" class="element"><div class="insideElement"><span></span><div class="content">
+            48
+            Cd
+
+            Cadmium
+            112.41        </div></div></td>
+
+        <td id="el49" class="element"><div class="insideElement"><span></span><div class="content">
+            49
+            In
+
+            Indium
+            114.82        </div></div></td>
+
+        <td id="el50" class="element"><div class="insideElement"><span></span><div class="content">
+            50
+            Sn
+
+            Tin
+            118.71        </div></div></td>
+
+        <td id="el51" class="element"><div class="insideElement"><span></span><div class="content">
+            51
+            Sb
+
+            Antimony
+            121.75        </div></div></td>
+
+        <td id="el52" class="element"><div class="insideElement"><span></span><div class="content">
+            52
+            Te
+
+            Tellurium
+            127.60        </div></div></td>
+
+        <td id="el53" class="element"><div class="insideElement"><span></span><div class="content">
+            53
+            I
+
+            Iodine
+            126.905        </div></div></td>
+
+        <td id="el54" class="element"><div class="insideElement"><span></span><div class="content">
+            54
+            Xe
+
+            Xenon
+            131.29        </div></div></td>
+    </tr>
+
+    <tr>
+
+        <td id="el55" class="element"><div class="insideElement"><span></span><div class="content">
+            55
+            Cs
+
+            Cesium
+            132.905        </div></div></td>
+
+        <td id="el56" class="element"><div class="insideElement"><span></span><div class="content">
+            56
+            Ba
+
+            Barium
+            137.33        </div></div></td>
+
+        <td class="space">**</td>
+
+        <td id="el72" class="element"><div class="insideElement"><span></span><div class="content">
+            72
+            Hf
+
+            Hafnium
+            178.49        </div></div></td>
+
+        <td id="el73" class="element"><div class="insideElement"><span></span><div class="content">
+            73
+            Ta
+
+            Tantalum
+            180.948        </div></div></td>
+
+        <td id="el74" class="element"><div class="insideElement"><span></span><div class="content">
+            74
+            W
+
+            Tungsten
+            183.948        </div></div></td>
+
+        <td id="el75" class="element"><div class="insideElement"><span></span><div class="content">
+            75
+            Re
+
+            Rhenium
+            186.207        </div></div></td>
+
+        <td id="el76" class="element"><div class="insideElement"><span></span><div class="content">
+            76
+            Os
+
+            Osmium
+            190.2        </div></div></td>
+
+        <td id="el77" class="element"><div class="insideElement"><span></span><div class="content">
+            77
+            Ir
+
+            Iridium
+            192.22        </div></div></td>
+
+        <td id="el78" class="element"><div class="insideElement"><span></span><div class="content">
+            78
+            Pt
+
+            Platinum
+            195.08        </div></div></td>
+
+        <td id="el79" class="element"><div class="insideElement"><span></span><div class="content">
+            79
+            Au
+
+            Gold
+            196.967        </div></div></td>
+
+        <td id="el80" class="element"><div class="insideElement"><span></span><div class="content">
+            80
+            Hg
+
+            Mercury
+            200.59        </div></div></td>
+
+        <td id="el81" class="element"><div class="insideElement"><span></span><div class="content">
+            81
+            Tl
+
+            Thalium
+            204.3383        </div></div></td>
+
+        <td id="el82" class="element"><div class="insideElement"><span></span><div class="content">
+            82
+            Pb
+
+            Lead
+            207.2        </div></div></td>
+
+        <td id="el83" class="element"><div class="insideElement"><span></span><div class="content">
+            83
+            Bi
+
+            Bismuth
+            208.980        </div></div></td>
+
+        <td id="el84" class="element"><div class="insideElement"><span></span><div class="content">
+            84
+            Po
+
+            Polonium
+            (209)        </div></div></td>
+
+        <td id="el85" class="element"><div class="insideElement"><span></span><div class="content">
+            85
+            At
+
+            Astatine
+            (210)        </div></div></td>
+
+        <td id="el86" class="element"><div class="insideElement"><span></span><div class="content">
+            86
+            Rn
+
+            Radon
+            (222)        </div></div></td>
+    </tr>
+
+    <tr>
+
+        <td id="el87" class="element"><div class="insideElement"><span></span><div class="content">
+            87
+            Fr
+
+            Francium
+            (223)        </div></div></td>
+
+        <td id="el88" class="element"><div class="insideElement"><span></span><div class="content">
+            88
+            Ra
+
+            Radium
+            226.025        </div></div></td>
+
+        <td class="space">*</td>
+
+        <td id="el104" class="element"><div class="insideElement"><span></span><div class="content">
+            104
+            Rf
+
+            Rutherfordium
+            (261)        </div></div></td>
+
+        <td id="el105" class="element"><div class="insideElement"><span></span><div class="content">
+            105
+            Db
+
+            Dubnium
+            (262)        </div></div></td>
+
+        <td id="el106" class="element"><div class="insideElement"><span></span><div class="content">
+            106
+            Sg
+
+            Seaborgium
+            (266.1219)        </div></div></td>
+
+        <td id="el107" class="element"><div class="insideElement"><span></span><div class="content">
+            107
+            Bh
+
+            Bohrium
+            (264)        </div></div></td>
+
+        <td id="el108" class="element"><div class="insideElement"><span></span><div class="content">
+            108
+            Hs
+
+            Hassium
+            (269)        </div></div></td>
+
+        <td id="el109" class="element"><div class="insideElement"><span></span><div class="content">
+            109
+            Mt
+
+            Meitnerium
+            (268)        </div></div></td>
+
+        <td id="el110" class="element"><div class="insideElement"><span></span><div class="content">
+            110
+            Ds
+
+            Darmstadtium
+            (267 - 281)        </div></div></td>
+
+        <td id="el111" class="element"><div class="insideElement"><span></span><div class="content">
+            111
+            Rg
+
+            Roentgenium
+            (272 - 280)        </div></div></td>
+
+		<!-- CURRENTLY THESE ELEMENTS ARE NOT IN USE
+		     CAN RESTORE LATER WHEN DATA HAS BEEN ADDED
+        <td id="el112" class="element"><div class="insideElement"><span></span><div class="content">
+            112
+            Uub
+
+            Ununbium
+            (285)        </td>
+
+        <td id="el113" class="element"><div class="insideElement"><span></span><div class="content">
+            113
+            Uut
+
+            Ununtrium
+            (284)        </td>
+
+        <td id="el114" class="element"><div class="insideElement"><span></span><div class="content">
+            114
+            Uuq
+
+            Ununquadium
+            (289)        </td>
+
+        <td id="el115" class="element"><div class="insideElement"><span></span><div class="content">
+            115
+            Uup
+
+            Ununpentium
+            (288)        </td>
+
+
+        <td id="el116" class="element"><div class="insideElement"><span></span><div class="content">
+            116
+            Uuh
+
+            Ununhexium
+            (292)        </td>
+
+        <td id="el117" class="element"><div class="insideElement"><span></span><div class="content">
+            117
+            Uus
+
+            Ununseptium
+            (291)        </td>
+
+		<td id="el118" class="element"><div class="insideElement"><span></span><div class="content">
+            118
+            Uuo
+
+            Ununoctium
+            (293)        </td>
+
+		-->
+    </tr>
+
+    <tr>
+
+        <td colspan="18" class="space">&nbsp;</td>
+    </tr>
+
+    <tr>
+
+		<td colspan="3" class="space"></td>
+
+        <td id="el57" class="element"><div class="insideElement"><span></span><div class="content">
+            57
+            La
+
+            Lanthanum
+            138.906        </div></div></td>
+
+        <td id="el58" class="element"><div class="insideElement"><span></span><div class="content">
+            58
+            Ce
+
+            Cerium
+            140.12        </div></div></td>
+
+        <td id="el59" class="element"><div class="insideElement"><span></span><div class="content">
+            59
+            Pr
+
+            Praseodymium
+            140.908        </div></div></td>
+
+        <td id="el60" class="element"><div class="insideElement"><span></span><div class="content">
+            60
+            Nd
+
+            Neodymium
+            144.24        </div></div></td>
+
+        <td id="el61" class="element"><div class="insideElement"><span></span><div class="content">
+            61
+            Pm
+
+            Promethium
+            (145)        </div></div></td>
+
+        <td id="el62" class="element"><div class="insideElement"><span></span><div class="content">
+            62
+            Sm
+
+            Samarium
+            150.36        </div></div></td>
+
+        <td id="el63" class="element"><div class="insideElement"><span></span><div class="content">
+            63
+            Eu
+
+            Europium
+            151.96        </div></div></td>
+
+        <td id="el64" class="element"><div class="insideElement"><span></span><div class="content">
+            64
+            Gd
+
+            Gadolinium
+            157.25        </div></div></td>
+
+        <td id="el65" class="element"><div class="insideElement"><span></span><div class="content">
+            65
+            Tb
+
+            Terbium
+            158.925        </div></div></td>
+
+        <td id="el66" class="element"><div class="insideElement"><span></span><div class="content">
+            66
+            Dy
+
+            Dysprosium
+            162.50        </div></div></td>
+
+        <td id="el67" class="element"><div class="insideElement"><span></span><div class="content">
+            67
+            Ho
+
+            Holmium
+            164.930        </div></div></td>
+
+        <td id="el68" class="element"><div class="insideElement"><span></span><div class="content">
+            68
+            Er
+
+            Erbium
+            167.26        </div></div></td>
+
+        <td id="el69" class="element"><div class="insideElement"><span></span><div class="content">
+            69
+            Tm
+
+            Thulium
+            168.934        </div></div></td>
+
+        <td id="el70" class="element"><div class="insideElement"><span></span><div class="content">
+            70
+            Yb
+
+            Ytterbium
+            173.04        </div></div></td>
+
+        <td id="el71" class="element"><div class="insideElement"><span></span><div class="content">
+            71
+            Lu
+
+            Lutetium
+            174.967        </div></div></td>
+    </tr>
+
+    <tr>
+
+		<td colspan="3" class="space"></td>
+
+        <td id="el89" class="element"><div class="insideElement"><span></span><div class="content">
+            89
+            Ac
+
+            Actinium
+            227.028        </div></div></td>
+
+        <td id="el90" class="element"><div class="insideElement"><span></span><div class="content">
+            90
+            Th
+
+            Thorium
+            232.038        </div></div></td>
+
+        <td id="el91" class="element"><div class="insideElement"><span></span><div class="content">
+            91
+            Pa
+
+            Protactinium
+            231.036        </div></div></td>
+
+        <td id="el92" class="element"><div class="insideElement"><span></span><div class="content">
+            92
+            U
+
+            Uranium
+            238.029        </div></div></td>
+
+        <td id="el93" class="element"><div class="insideElement"><span></span><div class="content">
+            93
+            Np
+
+            Neptunium
+            237.048        </div></div></td>
+
+        <td id="el94" class="element"><div class="insideElement"><span></span><div class="content">
+            94
+            Pu
+
+            Plutonium
+            (244)		</div></div></td>
+
+        <td id="el95" class="element"><div class="insideElement"><span></span><div class="content">
+            95
+            Am
+
+            Americium
+            (243)        </div></div></td>
+
+        <td id="el96" class="element"><div class="insideElement"><span></span><div class="content">
+            96
+            Cm
+
+            Curium
+            (247)        </div></div></td>
+
+        <td id="el97" class="element"><div class="insideElement"><span></span><div class="content">
+            97
+            Bk
+
+            Berkelium
+            (347)        </div></div></td>
+
+        <td id="el98" class="element"><div class="insideElement"><span></span><div class="content">
+            98
+            Cf
+
+            Californium
+            (251)        </div></div></td>
+
+        <td id="el99" class="element"><div class="insideElement"><span></span><div class="content">
+            99
+            Es
+
+            Einsteinium
+            (252)        </div></div></td>
+
+        <td id="el100" class="element"><div class="insideElement"><span></span><div class="content">
+            100
+            Fm
+
+            Fermium
+            (257)        </div></div></td>
+
+        <td id="el101" class="element"><div class="insideElement"><span></span><div class="content">
+            101
+            Md
+
+            Mendelevium
+            (258)        </div></div></td>
+
+        <td id="el102" class="element"><div class="insideElement"><span></span><div class="content">
+            102
+            No
+
+            Nobelium
+            (259)        </div></div></td>
+
+        <td id="el103" class="element"><div class="insideElement"><span></span><div class="content">
+            103
+            Lr
+
+            Lawrencium
+            (260)        </div></div></td>
+    </tr>
+</table>
+
+<!--Graph -->
+<div id="graphArea">
+
+	<span id="graphElement"></span>
+	<span id="graphValue"></span>
+
+	<span id="resizeGraph">Enlarge</span>
+
+	<div id="graph" class="graph">
+		<div id="graphBars">
+			<div id="gb1" class="elementGraphBar">Bar</div>
+			<div id="gb2" class="elementGraphBar">Bar</div>
+			<div id="gb3" class="elementGraphBar">Bar</div>
+			<div id="gb4" class="elementGraphBar">Bar</div>
+			<div id="gb5" class="elementGraphBar">Bar</div>
+			<div id="gb6" class="elementGraphBar">Bar</div>
+			<div id="gb7" class="elementGraphBar">Bar</div>
+			<div id="gb8" class="elementGraphBar">Bar</div>
+			<div id="gb9" class="elementGraphBar">Bar</div>
+			<div id="gb10" class="elementGraphBar">Bar</div>
+			<div id="gb11" class="elementGraphBar">Bar</div>
+			<div id="gb12" class="elementGraphBar">Bar</div>
+			<div id="gb13" class="elementGraphBar">Bar</div>
+			<div id="gb14" class="elementGraphBar">Bar</div>
+			<div id="gb15" class="elementGraphBar">Bar</div>
+			<div id="gb16" class="elementGraphBar">Bar</div>
+			<div id="gb17" class="elementGraphBar">Bar</div>
+			<div id="gb18" class="elementGraphBar">Bar</div>
+			<div id="gb19" class="elementGraphBar">Bar</div>
+			<div id="gb20" class="elementGraphBar">Bar</div>
+			<div id="gb21" class="elementGraphBar">Bar</div>
+			<div id="gb22" class="elementGraphBar">Bar</div>
+			<div id="gb23" class="elementGraphBar">Bar</div>
+			<div id="gb24" class="elementGraphBar">Bar</div>
+			<div id="gb25" class="elementGraphBar">Bar</div>
+			<div id="gb26" class="elementGraphBar">Bar</div>
+			<div id="gb27" class="elementGraphBar">Bar</div>
+			<div id="gb28" class="elementGraphBar">Bar</div>
+			<div id="gb29" class="elementGraphBar">Bar</div>
+			<div id="gb30" class="elementGraphBar">Bar</div>
+			<div id="gb31" class="elementGraphBar">Bar</div>
+			<div id="gb32" class="elementGraphBar">Bar</div>
+			<div id="gb33" class="elementGraphBar">Bar</div>
+			<div id="gb34" class="elementGraphBar">Bar</div>
+			<div id="gb35" class="elementGraphBar">Bar</div>
+			<div id="gb36" class="elementGraphBar">Bar</div>
+			<div id="gb37" class="elementGraphBar">Bar</div>
+			<div id="gb38" class="elementGraphBar">Bar</div>
+			<div id="gb39" class="elementGraphBar">Bar</div>
+			<div id="gb40" class="elementGraphBar">Bar</div>
+			<div id="gb41" class="elementGraphBar">Bar</div>
+			<div id="gb42" class="elementGraphBar">Bar</div>
+			<div id="gb43" class="elementGraphBar">Bar</div>
+			<div id="gb44" class="elementGraphBar">Bar</div>
+			<div id="gb45" class="elementGraphBar">Bar</div>
+			<div id="gb46" class="elementGraphBar">Bar</div>
+			<div id="gb47" class="elementGraphBar">Bar</div>
+			<div id="gb48" class="elementGraphBar">Bar</div>
+			<div id="gb49" class="elementGraphBar">Bar</div>
+			<div id="gb50" class="elementGraphBar">Bar</div>
+			<div id="gb51" class="elementGraphBar">Bar</div>
+			<div id="gb52" class="elementGraphBar">Bar</div>
+			<div id="gb53" class="elementGraphBar">Bar</div>
+			<div id="gb54" class="elementGraphBar">Bar</div>
+			<div id="gb55" class="elementGraphBar">Bar</div>
+			<div id="gb56" class="elementGraphBar">Bar</div>
+			<div id="gb57" class="elementGraphBar">Bar</div>
+			<div id="gb58" class="elementGraphBar">Bar</div>
+			<div id="gb59" class="elementGraphBar">Bar</div>
+			<div id="gb60" class="elementGraphBar">Bar</div>
+			<div id="gb61" class="elementGraphBar">Bar</div>
+			<div id="gb62" class="elementGraphBar">Bar</div>
+			<div id="gb63" class="elementGraphBar">Bar</div>
+			<div id="gb64" class="elementGraphBar">Bar</div>
+			<div id="gb65" class="elementGraphBar">Bar</div>
+			<div id="gb66" class="elementGraphBar">Bar</div>
+			<div id="gb67" class="elementGraphBar">Bar</div>
+			<div id="gb68" class="elementGraphBar">Bar</div>
+			<div id="gb69" class="elementGraphBar">Bar</div>
+			<div id="gb70" class="elementGraphBar">Bar</div>
+			<div id="gb71" class="elementGraphBar">Bar</div>
+			<div id="gb72" class="elementGraphBar">Bar</div>
+			<div id="gb73" class="elementGraphBar">Bar</div>
+			<div id="gb74" class="elementGraphBar">Bar</div>
+			<div id="gb75" class="elementGraphBar">Bar</div>
+			<div id="gb76" class="elementGraphBar">Bar</div>
+			<div id="gb77" class="elementGraphBar">Bar</div>
+			<div id="gb78" class="elementGraphBar">Bar</div>
+			<div id="gb79" class="elementGraphBar">Bar</div>
+			<div id="gb80" class="elementGraphBar">Bar</div>
+			<div id="gb81" class="elementGraphBar">Bar</div>
+			<div id="gb82" class="elementGraphBar">Bar</div>
+			<div id="gb83" class="elementGraphBar">Bar</div>
+			<div id="gb84" class="elementGraphBar">Bar</div>
+			<div id="gb85" class="elementGraphBar">Bar</div>
+			<div id="gb86" class="elementGraphBar">Bar</div>
+			<div id="gb87" class="elementGraphBar">Bar</div>
+			<div id="gb88" class="elementGraphBar">Bar</div>
+			<div id="gb89" class="elementGraphBar">Bar</div>
+			<div id="gb90" class="elementGraphBar">Bar</div>
+			<div id="gb91" class="elementGraphBar">Bar</div>
+			<div id="gb92" class="elementGraphBar">Bar</div>
+			<div id="gb93" class="elementGraphBar">Bar</div>
+			<div id="gb94" class="elementGraphBar">Bar</div>
+			<div id="gb95" class="elementGraphBar">Bar</div>
+			<div id="gb96" class="elementGraphBar">Bar</div>
+			<div id="gb97" class="elementGraphBar">Bar</div>
+			<div id="gb98" class="elementGraphBar">Bar</div>
+			<div id="gb99" class="elementGraphBar">Bar</div>
+			<div id="gb100" class="elementGraphBar">Bar</div>
+			<div id="gb101" class="elementGraphBar">Bar</div>
+			<div id="gb102" class="elementGraphBar">Bar</div>
+			<div id="gb103" class="elementGraphBar">Bar</div>
+			<div id="gb104" class="elementGraphBar">Bar</div>
+			<div id="gb105" class="elementGraphBar">Bar</div>
+			<div id="gb106" class="elementGraphBar">Bar</div>
+			<div id="gb107" class="elementGraphBar">Bar</div>
+			<div id="gb108" class="elementGraphBar">Bar</div>
+			<div id="gb109" class="elementGraphBar">Bar</div>
+			<div id="gb110" class="elementGraphBar">Bar</div>
+			<div id="gb111" class="elementGraphBar">Bar</div>
+		</div>
+	</div>
+</div>
+
+
+<div id="electronConfig">
+
+	<div>
+		<span class="electronLabel">n:</span>
+		<span id="nOne">1</span>
+		<span id="nTwo">2</span>
+		<span id="nThree">3</span>
+		<span id="nFour">4</span>
+		<span id="nFive">5</span>
+		<span id="nSix">6</span>
+		<span id="nSeven">7</span>
+		<span id="nEight">8</span>
+	</div>
+
+	<div>
+		<span class="electronLabel">l:</span>
+		<span id="lS">s</span>
+		<span id="lP">p</span>
+		<span id="lD">d</span>
+		<span id="lF">f</span>
+	</div>
+
+	<div>
+		<span class="electronLabel">s:</span>
+		<span id="sValue"></span>
+	</div>
+
+</div>
+
+</body>
+</html>

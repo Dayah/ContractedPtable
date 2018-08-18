@@ -1,0 +1,21 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+	<title>Opacity test</title>
+	<style type="text/css">
+		body {background:#fff}
+		h1 {position:relative;width:500px;height:50px;}
+		span#opacity {left:0;position:absolute;height:100%;width:100%;background:#f00;z-index:0;filter: alpha(opacity=20); filter: progid:DXImageTransform.Microsoft.Alpha(opacity=20); -moz-opacity: 0.20; opacity:0.2;text-align:right;}
+		span#not { position:absolute;z-index:1;width:100%;height:100%; }
+	</style>
+</head>
+<body>
+	<h1><span id="opacity">test</span><span id="not">Opacity Test</span></h1>
+	<h1><span id="opacity">test</span><span id="not">Opacity Test</span></h1>
+	<h1><span id="opacity">test</span><span id="not">Opacity Test</span></h1>
+	<h1><span id="opacity">test</span><span id="not">Opacity Test</span></h1>
+	<h1><span id="opacity">test</span><span id="not">Opacity Test</span></h1>
+	<h1><span id="opacity">test</span><span id="not">Opacity Test</span></h1>
+	<h1><span id="opacity">test</span><span id="not">Opacity Test</span></h1>
+</body>
+</html>

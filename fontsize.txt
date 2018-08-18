@@ -1,0 +1,4 @@
+function fontSize(size) {
+      e = document.getElementsByTagName('body');
+      e[0].style.fontSize = size;
+   } 
