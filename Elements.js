@@ -37,10 +37,13 @@ function loadElementInformation()
 	//Code for Mozilla
 	else if (document.implementation && document.implementation.createDocument)
 	{
-		xmlDoc=document.implementation.createDocument("","",null);
-		xmlDoc.async=false;	
-		xmlDoc.load(xmlElementsFile);
-		parseXMLElementData(xmlDoc);
+//		xmlDoc=document.implementation.createDocument("","",null);
+//		xmlDoc.async=false;	
+//		xmlDoc.load(xmlElementsFile);
+		var xhr = new XMLHttpRequest();
+		xhr.open("GET", xmlElementsFile, false);
+		xhr.send(null);
+		parseXMLElementData(xhr.responseXML);
 	}
 	
 }

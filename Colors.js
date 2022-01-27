@@ -44,10 +44,13 @@ function loadColorInformation()
 	//Code for Mozilla
 	else if (document.implementation && document.implementation.createDocument)
 	{
-		xmlDoc=document.implementation.createDocument("","",null);
-		xmlDoc.async = false;
-		xmlDoc.load(xmlColorFile);
-		parseColorData(xmlDoc);
+//		xmlDoc=document.implementation.createDocument("","",null);
+//		xmlDoc.async = false;
+//		xmlDoc.load(xmlColorFile);
+		var xhr = new XMLHttpRequest();
+		xhr.open("GET", xmlColorFile, false);
+		xhr.send(null);
+		parseColorData(xhr.responseXML);
 	}
 	
 }

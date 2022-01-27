@@ -3,7 +3,7 @@
 */
 
 // Location of elements XML file
-var xmlElementsFile = "elements.xml";
+var xmlElementsFile = "Elements.xml";
 
 // Location of colors XML file
 var xmlColorFile = "colors.xml";
